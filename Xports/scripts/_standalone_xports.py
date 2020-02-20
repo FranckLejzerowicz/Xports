@@ -8,8 +8,8 @@
 
 import click
 
-from Xports._xports import xports
 from Xports import __version__
+from Xports._xports import xports
 
 @click.command()
 @click.option(
