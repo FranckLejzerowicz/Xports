@@ -9,18 +9,16 @@
 import os
 import datetime
 import subprocess
+import socket
 import multiprocessing as mp
 from os.path import dirname, isdir, isfile, splitext, expanduser, abspath
 
 
-def chunks(l: list, chunk_size: int, chunk_number: int = 0) -> list:
+def chunks(l: list, chunk_number: int) -> list:
     # Adapted from:
     # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
-    if chunk_size:
-        return [l[i:i + chunk_size] for i in range(0, len(l), chunk_size)]
-    else:
-        n = len(l)//chunk_number
-        return [l[i:i + n] for i in range(0, len(l), n)]
+    n = len(l)//chunk_number
+    return [l[i:i + n] for i in range(0, len(l), n)]
 
 
 def get_cur_time() -> str:
@@ -71,7 +69,7 @@ def xports(folder: str, exts: tuple, archive: str) -> None:
     if len(to_exports) <= 8:
         to_exports_chunks = [[x] for x in to_exports]
     else:
-        to_exports_chunks = chunks(to_exports, 0, 8)
+        to_exports_chunks = chunks(to_exports, 8)
 
     print('Moving %s files with extentions "%s" to %s' % (
         len(to_exports), '", "'.join(extensions), folder_exp))
@@ -90,6 +88,6 @@ def xports(folder: str, exts: tuple, archive: str) -> None:
 
     create_archive(archive, folder_exp)
     home = expanduser('~').split('/')[-1]
-    print('Done! To copy this archive from barnacle to your home, copy-edit-paste this:\n')
-    print('scp %s@barnacle.ucsd.edu:%s .' % (home, abspath(archive)))
-    print('(you may change "." by a path on your machine)')
+    hostname = socket.gethostname()
+    print('Done! To copy this archive from this server to your home, copy(-edit)-paste this:\n')
+    print('scp %s@%s:%s .' % (home, hostname, abspath(archive)))
