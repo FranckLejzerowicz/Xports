@@ -59,19 +59,17 @@ def create_archive(output: str, folder_exp: str) -> None:
 
 def xports(folder: str, exts: tuple, archive: str) -> None:
 
+    print(exts)
+
     cur_time = get_cur_time()
     folder_exp = '%s/exports_%s' % (folder.rstrip('/'), cur_time)
-
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
 
     to_exports = get_input_files(folder, extensions)
-
     if len(to_exports) <= 8:
         to_exports_chunks = [[x] for x in to_exports]
     else:
         to_exports_chunks = chunks(to_exports, 8)
-
-
 
     print('Moving %s files with extentions "%s" to %s' % (
         len(to_exports), '", "'.join(extensions), folder_exp))

@@ -19,7 +19,7 @@ from Xports._xports import xports
 )
 @click.option(
     "-e", "--p-exts", required=False, multiple=True,
-    default=['qzv'], show_default=True,
+    default=('qzv',), show_default=True,
     help="Files extensions to select (default = qzv)."
 )
 @click.option(
