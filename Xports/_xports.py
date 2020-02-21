@@ -59,8 +59,6 @@ def create_archive(output: str, folder_exp: str) -> None:
 
 def xports(folder: str, exts: tuple, archive: str) -> None:
 
-    print(exts)
-
     cur_time = get_cur_time()
     folder_exp = '%s/exports_%s' % (folder.rstrip('/'), cur_time)
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
@@ -76,7 +74,6 @@ def xports(folder: str, exts: tuple, archive: str) -> None:
 
     jobs = []
     for to_exports_chunk in to_exports_chunks:
-        print(len(to_exports_chunk))
         p = mp.Process(
             target=move_exports,
             args=(folder, folder_exp, to_exports_chunk,)
