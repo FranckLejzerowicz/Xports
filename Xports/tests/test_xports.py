@@ -9,7 +9,7 @@
 import os
 import unittest
 
-from Xports._xports import (
+from Xports import (
     chunks,
     get_input_files
 )
