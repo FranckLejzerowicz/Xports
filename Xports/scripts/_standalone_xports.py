@@ -9,7 +9,7 @@
 import click
 
 from Xports import __version__
-from Xports import xports
+from Xports._xports import xports
 
 
 @click.command()
