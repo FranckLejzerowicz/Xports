@@ -18,7 +18,7 @@ from Xports._xports import xports
     help="Folder to walk through to find files for export."
 )
 @click.option(
-    "-e", "--p-exts", required=False, mulitple=True,
+    "-e", "--p-exts", required=False, multiple=True,
     default=['qzv'], show_default=True,
     help="Files extensions to select (default = qzv)."
 )
