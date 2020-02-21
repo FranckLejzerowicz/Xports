@@ -71,11 +71,14 @@ def xports(folder: str, exts: tuple, archive: str) -> None:
     else:
         to_exports_chunks = chunks(to_exports, 8)
 
+
+
     print('Moving %s files with extentions "%s" to %s' % (
         len(to_exports), '", "'.join(extensions), folder_exp))
 
     jobs = []
     for to_exports_chunk in to_exports_chunks:
+        print(len(to_exports_chunk))
         p = mp.Process(
             target=move_exports,
             args=(folder, folder_exp, to_exports_chunk,)
