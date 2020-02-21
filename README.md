@@ -23,8 +23,11 @@ pip install --upgrade git+https://github.com/FranckLejzerowicz/Xports.git
 ## Input
 
 A path to a folder containing files you need to get copied from into a complex directories arborescence (option `-i`),
-and the extension(s) of these files in order to select them (option `-e`). 
+and the extension(s) of these files in order to select them (option `-e`). For multiple extensions, use the option 
+repeatedly, e.g.
 
+`Xports -i Xports/tests -o Xports/tests/my-archive.tar.gz -e qzv -e qza`
+ 
 ## Outputs
  
 A tar.gz archive file containing all the files in the given input folder which name ends with the given extension(s).
