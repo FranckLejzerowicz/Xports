@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
+import re
 import datetime
 import subprocess
 import socket
@@ -26,10 +27,18 @@ def get_cur_time() -> str:
     return cur_time
 
 
-def get_input_files(folder: str, extensions: list) -> list:
+def get_input_files(folder: str, p_regex: tuple, extensions: list) -> list:
+
+    if p_regex:
+        regex = re.compile(r'%s' % '|'.join(list(p_regex)), flags=re.IGNORECASE)
+
     to_exports = []
     for root, dirs, files in os.walk(folder):
         for fil in files:
+            if p_regex:
+                if re.search(regex, fil):
+                    to_exports.append('%s/%s' % (root, fil))
+                    continue
             ext = splitext(fil)[1]
             if ext in extensions:
                 to_exports.append('%s/%s' % (root, fil))
@@ -57,13 +66,14 @@ def create_archive(output: str, folder_exp: str) -> None:
     subprocess.call(['rm', '-rf', folder_exp])
 
 
-def xports(folder: str, exts: tuple, archive: str) -> None:
+def xports(folder: str, exts: tuple, p_regex: tuple, archive: str) -> None:
 
+    folder = abspath(folder)
     cur_time = get_cur_time()
     folder_exp = '%s/exports_%s' % (folder.rstrip('/'), cur_time)
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
 
-    to_exports = get_input_files(folder, extensions)
+    to_exports = get_input_files(folder, p_regex, extensions)
     if len(to_exports) <= 8:
         to_exports_chunks = [[x] for x in to_exports]
     else:
@@ -84,6 +94,7 @@ def xports(folder: str, exts: tuple, archive: str) -> None:
     for j in jobs:
         j.join()
 
+    archive = abspath(archive)
     create_archive(archive, folder_exp)
     home = expanduser('~').split('/')[-1]
     hostname = socket.gethostname()

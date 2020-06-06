@@ -19,7 +19,11 @@ from Xports._xports import xports
 )
 @click.option(
     "-e", "--p-exts", required=False, multiple=True, default=['qzv'],
-    show_default=True, help="Files extensions to select (default = qzv)."
+    show_default=True, help="Files extensions to select."
+)
+@click.option(
+    "-r", "--p-regex", required=False, multiple=True, default=None,
+    show_default=False, help="Regex for file names to select."
 )
 @click.option(
     "-o", "--o-archive", required=True, help="Output archive file."
@@ -30,12 +34,14 @@ from Xports._xports import xports
 def standalone_xports(
         i_folder,
         p_exts,
+        p_regex,
         o_archive
 ):
 
     xports(
         i_folder,
         p_exts,
+        p_regex,
         o_archive
     )
 
