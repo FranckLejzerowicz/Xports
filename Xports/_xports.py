@@ -72,13 +72,11 @@ def xports(folder: str, exts: tuple, p_regex: tuple,
     folder = abspath(folder)
     cur_time = get_cur_time()
     username = subprocess.getoutput('echo $USER')
-    prefix = '/panfs/panfs1.ucsd.edu/home/%s' % username
-    print(prefix)
+    prefix = '/panfs/panfs1.ucsd.edu/panscratch/%s' % username
     if isdir(prefix):
         folder_exp = '%s/exports_%s' % (prefix, cur_time)
     else:
         folder_exp = '%s/exports_%s' % (folder.rstrip('/'), cur_time)
-    print(folder_exp)
 
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
     to_exports = get_input_files(folder, p_regex, extensions)
