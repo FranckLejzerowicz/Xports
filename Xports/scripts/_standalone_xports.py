@@ -28,6 +28,10 @@ from Xports._xports import xports
 @click.option(
     "-o", "--o-archive", required=True, help="Output archive file."
 )
+@click.option(
+    "--local", "--no-local", required=False, default=False,
+    help="Creates the tar locally, and not in panasas."
+)
 @click.version_option(__version__, prog_name="routine_qiime2_analyses")
 
 
@@ -35,14 +39,16 @@ def standalone_xports(
         i_folder,
         p_exts,
         p_regex,
-        o_archive
+        o_archive,
+        local
 ):
 
     xports(
         i_folder,
         p_exts,
         p_regex,
-        o_archive
+        o_archive,
+        local
     )
 
 
