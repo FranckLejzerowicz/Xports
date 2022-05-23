@@ -23,9 +23,8 @@ classes = """
 classifiers = [s.strip() for s in classes.split('\n') if s]
 
 description = (
-    "Xports is a command line tool to write an archive from a server (default "
-    "to the Knight lab's barnacke) containing files in a given folder with "
-    "given extensions."
+    "Xports is a command line tool to write an archive from a server "
+    "containing files in a given folder with given extensions."
 )
 
 with open("README.md") as f:
