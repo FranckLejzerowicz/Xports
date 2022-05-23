@@ -30,7 +30,7 @@ from Xports._xports import xports
 )
 @click.option(
     "--local", "--no-local", required=False, default=False,
-    help="Creates the tar locally, and not in panasas."
+    help="Creates the tar locally, and not in $USERWORK."
 )
 @click.version_option(__version__, prog_name="routine_qiime2_analyses")
 
