@@ -29,7 +29,7 @@ from Xports._xports import xports
     "-o", "--o-archive", required=True, help="Output archive file."
 )
 @click.option(
-    "-l", "--p-local", required=False, default='$USERWORK',
+    "-l", "--p-local", required=False, default='USERWORK',
     help='If not creating the tar locally, create it there.'
 )
 @click.option(
