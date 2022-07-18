@@ -76,7 +76,10 @@ def xports(folder: str, exts: tuple, p_regex: tuple, p_local: str,
     if local:
         folder_exp = '%s/exports_%s' % (abspath(folder).rstrip('/'), cur_time)
     else:
-        folder_exp = '%s/exports_%s' % (p_local, cur_time)
+        if p_local in os.environ:
+            folder_exp = '%s/exports_%s' % (os.environ[p_local], cur_time)
+        else:
+            folder_exp = '%s/exports_%s' % (p_local, cur_time)
 
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
     to_exports = get_input_files(folder, p_regex, extensions)
@@ -101,7 +104,10 @@ def xports(folder: str, exts: tuple, p_regex: tuple, p_local: str,
 
     archive = abspath(archive)
     if not local:
-        archive = '%s/%s' % (p_local, basename(archive))
+        if p_local in os.environ:
+            archive = '%s/%s' % (os.environ[p_local], basename(archive))
+        else:
+            archive = '%s/%s' % (p_local, basename(archive))
 
     create_archive(archive, folder_exp)
     user = expanduser('~').split('/')[-1]
