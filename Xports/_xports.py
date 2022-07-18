@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2020, Franck Lejzerowicz.
+# Copyright (c) 2022, Franck Lejzerowicz.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -68,16 +68,15 @@ def create_archive(output: str, folder_exp: str) -> None:
     subprocess.call(['rm', '-rf', folder_exp])
 
 
-def xports(folder: str, exts: tuple, p_regex: tuple,
+def xports(folder: str, exts: tuple, p_regex: tuple, p_local: str,
            archive: str, local: bool) -> None:
 
     folder = abspath(folder)
     cur_time = get_cur_time()
-    prefix = '${USERWORK}'
     if local:
-        folder_exp = '%s/exports_%s' % (folder.rstrip('/'), cur_time)
+        folder_exp = '%s/exports_%s' % (abspath(folder).rstrip('/'), cur_time)
     else:
-        folder_exp = '%s/exports_%s' % (prefix, cur_time)
+        folder_exp = '%s/exports_%s' % (p_local, cur_time)
 
     extensions = ['.%s' % x if x[0] != '.' else x for x in exts]
     to_exports = get_input_files(folder, p_regex, extensions)
@@ -93,8 +92,7 @@ def xports(folder: str, exts: tuple, p_regex: tuple,
     for to_exports_chunk in to_exports_chunks:
         p = mp.Process(
             target=move_exports,
-            args=(folder, folder_exp, to_exports_chunk,)
-        )
+            args=(folder, folder_exp, to_exports_chunk,))
         p.start()
         jobs.append(p)
 
@@ -102,11 +100,11 @@ def xports(folder: str, exts: tuple, p_regex: tuple,
         j.join()
 
     archive = abspath(archive)
-    if isdir(prefix):
-        archive = '%s/%s' % (prefix, basename(archive))
+    if not local:
+        archive = '%s/%s' % (p_local, basename(archive))
 
     create_archive(archive, folder_exp)
     user = expanduser('~').split('/')[-1]
     hostname = socket.gethostname()
     print('Done! To download from server to local, copy(-edit)-paste this:\n')
-    print('scp %s@%s:%s .' % (user, hostname, abspath(archive)))
+    print('scp %s@%s:%s .' % (user, hostname, archive))

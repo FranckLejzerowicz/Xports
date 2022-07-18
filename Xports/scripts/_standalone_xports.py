@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2020, Franck Lejzerowicz.
+# Copyright (c) 2022, Franck Lejzerowicz.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -29,16 +29,21 @@ from Xports._xports import xports
     "-o", "--o-archive", required=True, help="Output archive file."
 )
 @click.option(
-    "--local", "--no-local", required=False, default=False,
+    "-l", "--p-local", required=False, default='${USERWORK}',
+    help='If not creating the tar locally, create it there.'
+)
+@click.option(
+    "--local/--no-local", required=False, default=False,
     help="Creates the tar locally, and not in $USERWORK."
 )
-@click.version_option(__version__, prog_name="routine_qiime2_analyses")
+@click.version_option(__version__, prog_name="Xports")
 
 
 def standalone_xports(
         i_folder,
         p_exts,
         p_regex,
+        p_local,
         o_archive,
         local
 ):
@@ -47,6 +52,7 @@ def standalone_xports(
         i_folder,
         p_exts,
         p_regex,
+        p_local,
         o_archive,
         local
     )
