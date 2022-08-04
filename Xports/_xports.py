@@ -12,8 +12,8 @@ import datetime
 import subprocess
 import socket
 import multiprocessing as mp
-from os.path import (basename, dirname, isdir, isfile,
-                     splitext, expanduser, abspath)
+from os.path import (abspath, basename, dirname, expanduser, expandvars,
+                     isdir, isfile, splitext)
 
 
 def chunks(l: list, chunk_number: int) -> list:
@@ -105,12 +105,10 @@ def xports(folder: str, exts: tuple, p_regex: tuple, p_location: str,
     archive = abspath(archive)
     if not local:
         if p_location in os.environ:
-            print('1a', archive)
             archive = '%s/%s' % (os.environ[p_location], basename(archive))
         else:
-            print('1b', archive)
             archive = '%s/%s' % (p_location, basename(archive))
-    print('2', archive)
+    archive = expandvars(archive)
     create_archive(archive, folder_exp)
     user = expanduser('~').split('/')[-1]
     hostname = socket.gethostname()
